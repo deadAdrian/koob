@@ -2,6 +2,9 @@
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from "@mui/material/CssBaseline";
+import { Nunito_Sans } from "next/font/google";
+
+const nunitoSans = Nunito_Sans({ subsets: ["latin"] });
 
 const theme = createTheme({
   palette: {
@@ -17,6 +20,10 @@ const theme = createTheme({
     background: {
       default: '#0B2545'
     }
+  },
+  typography:{
+    fontFamily: nunitoSans.style.fontFamily
+    
   }
 });
 
