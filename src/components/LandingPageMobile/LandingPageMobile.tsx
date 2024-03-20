@@ -6,37 +6,32 @@ import Image from "next/image";
 import LottieAnimation from "@/components/LottieAnimation/LottieAnimation";
 import animationData from "../../../public/bookAnimation.json";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import LoginForm from "../LoginForm/LoginForm";
+import { StyledLandingPageMobile } from "./styles";
+import { animated, useSpring, config } from '@react-spring/web'
 
 export default function Test() {
   const theme = useTheme();
+  const test = true;
+  const [slideAnimationStyles, slideAnimationApi] = useSpring(() => ({
+    x: '100%',
+  }))
   return (
     <main
-      style={{
-        display: "flex",
-        width: "100vw",
-        justifyContent: "center",
-      }}
+      className={css`
+        ${StyledLandingPageMobile(theme, slideAnimationStyles)}
+      `}
     >
       <div
         className="mobile-landing-page"
-        style={{
-          minWidth: "375px",
-          maxHeight: "100dvh",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
       >
         <section
-          style={{ position: "relative", width: "100vw", height: "180px" }}
+          className="landing-page-section-1"
         >
           <Image priority src="logo.svg" fill alt="Site logo" />
         </section>
         <section
-          style={{
-            textAlign: "center",
-          }}
+          className="landing-page-section-2"
         >
           <p>Track and manage your reading journey.</p>
           <p>
@@ -44,16 +39,11 @@ export default function Test() {
           </p>
         </section>
         <section
-          style={{ position: "relative", width: "100vw", height: "500px" }}
+          className="landing-page-section-3"
         >
           <Image priority src="blob1.svg" fill alt="blob image" />
           <div
-            style={{
-              position: "absolute",
-              top: "40%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
+            className="section-3-lottie-animation-div"
           >
             <LottieAnimation
               animationData={animationData}
@@ -61,37 +51,44 @@ export default function Test() {
             />
           </div>
           <div
-          className={css`
-            display: flex;
-            width: 100%;
-            height: 100%;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 16px;
-          `}>
-            <div
-              className={css`
-                background-color: ${theme.palette.background.default};
-                display: flex;
-                position: relative;
-                justify-content: center;
-                align-items: center;
-                width: 70px;
-                height: 70px;
-                border-radius: 50%;
-                transition: transform .3s;
-                cursor: pointer;
-                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-                &:hover{
-                  transform: scale(1.1);
-                }
-              `}
+            className="section-3-arrow-button-div"
+          >
+            <button
+              className="arrow-button"
+              onClick={() => {
+                slideAnimationApi.start({x: '0%', config: config.wobbly});
+              }}
             >
               <ArrowRightAltIcon/>
-            </div>
+            </button>
           </div>
         </section>
       </div>
+      <animated.section
+        className="mobile-login-form"
+        style={{
+          ...slideAnimationStyles
+        }}
+      >
+        <div
+          className="mobile-login-form-div"
+        >
+          <section
+            className="mobile-login-section-1"
+          >
+            <Image priority src="logo.svg" fill alt="Site logo" />
+          </section>
+          <LoginForm />
+          <button
+            className="reverse-arrow-button"
+            onClick={() => {
+              slideAnimationApi.start({x: '100%'})
+            }}
+          >
+            <ArrowRightAltIcon/>
+          </button>
+        </div>
+      </animated.section>
     </main>
   );
 }
