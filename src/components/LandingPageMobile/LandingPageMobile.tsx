@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material";
 import { css } from '@emotion/css'
 import Image from "next/image";
@@ -12,18 +13,30 @@ import { animated, useSpring, config } from '@react-spring/web'
 
 export default function Test() {
   const theme = useTheme();
-  const test = true;
+  const [mounted, setMounted] = useState(false);
   const [slideAnimationStyles, slideAnimationApi] = useSpring(() => ({
     x: '100%',
-  }))
-  return (
+  }));
+  const springVertical = useSpring({
+    from: { y: -500},
+    to: { y: 0 },
+  });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  return ( 
+    mounted &&
     <main
       className={css`
-        ${StyledLandingPageMobile(theme, slideAnimationStyles)}
+        ${StyledLandingPageMobile(theme)}
       `}
     >
-      <div
+      <animated.div
         className="mobile-landing-page"
+        style={{
+          ...springVertical
+        }}
       >
         <section
           className="landing-page-section-1"
@@ -63,7 +76,7 @@ export default function Test() {
             </button>
           </div>
         </section>
-      </div>
+      </animated.div>
       <animated.section
         className="mobile-login-form"
         style={{

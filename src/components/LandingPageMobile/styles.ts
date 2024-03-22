@@ -4,9 +4,6 @@ import { SpringValue } from "@react-spring/web";
 
 export function StyledLandingPageMobile (
     theme: Theme,
-    slideAnimationStyles: {
-        x: SpringValue<string>;
-    }
 ) {
     return css`
         display: flex; 
