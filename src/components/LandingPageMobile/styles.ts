@@ -1,9 +1,9 @@
 import { css } from "@emotion/react";
 import { Theme } from "@mui/material";
-import { SpringValue } from "@react-spring/web";
 
 export function StyledLandingPageMobile (
     theme: Theme,
+    landingPageOrLogin: 'landingPage' | 'login'
 ) {
     return css`
         display: flex; 
@@ -19,6 +19,8 @@ export function StyledLandingPageMobile (
             flex-direction: column;
             align-items: center;
             justify-content: space-between;
+            transition: opacity .3s;
+            opacity: ${landingPageOrLogin === 'login' ? 0 : 1};
 
             .landing-page-section-1{
                 position: relative;
@@ -79,6 +81,8 @@ export function StyledLandingPageMobile (
             justify-content: center;
             position: absolute;
             background-color: ${theme.palette.background.default};
+            transition: opacity .3s;
+            opacity: ${landingPageOrLogin === 'login' ? 1 : 0};
 
             .mobile-login-form-div{
                 min-width: 375px;
