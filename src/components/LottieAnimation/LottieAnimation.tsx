@@ -1,11 +1,11 @@
 "use client"
-import Lottie from 'react-lottie';
+import { Lottie } from '@crello/react-lottie'
 
 type Props = {
     animationData: any,
     config: {
-        height: number | string,
-        width: number | string
+        height: string,
+        width: string
     }
 }
 
@@ -14,7 +14,6 @@ export default function LottieAnimation({animationData, config}: Readonly<Props>
         loop: true,
         autoplay: true,
         animationData: animationData,
-        
         rendererSettings: {
           preserveAspectRatio: "xMidYMid slice"
         }
@@ -22,7 +21,7 @@ export default function LottieAnimation({animationData, config}: Readonly<Props>
 
     return (
         <Lottie 
-          options={defaultOptions}
+          config={defaultOptions}
           width={config.width}
           height={config.height}
         />

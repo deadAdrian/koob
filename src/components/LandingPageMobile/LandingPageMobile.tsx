@@ -11,9 +11,10 @@ import LoginForm from "../LoginForm/LoginForm";
 import { StyledLandingPageMobile } from "./styles";
 import { animated, useSpring, config } from '@react-spring/web'
 
-export default function Test() {
+export default function LandingPageMobile() {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
+  const [landingPageOrLogin, setLandingPageOrLogin] = useState<'landingPage' | 'login'>('landingPage')
   const [slideAnimationStyles, slideAnimationApi] = useSpring(() => ({
     x: '100%',
   }));
@@ -29,10 +30,11 @@ export default function Test() {
     mounted &&
     <main
       className={css`
-        ${StyledLandingPageMobile(theme)}
+        ${StyledLandingPageMobile(theme, landingPageOrLogin)}
       `}
     >
       <animated.div
+        data-testid="mobile-landing-page"
         className="mobile-landing-page"
         style={{
           ...springVertical
@@ -60,16 +62,18 @@ export default function Test() {
           >
             <LottieAnimation
               animationData={animationData}
-              config={{ height: 300, width: 300 }}
+              config={{ height: '300px', width: '300px'}}
             />
           </div>
           <div
             className="section-3-arrow-button-div"
           >
             <button
+              data-testid="right-arrow-button"
               className="arrow-button"
               onClick={() => {
                 slideAnimationApi.start({x: '0%', config: config.wobbly});
+                setLandingPageOrLogin('login');
               }}
             >
               <ArrowRightAltIcon/>
@@ -78,6 +82,7 @@ export default function Test() {
         </section>
       </animated.div>
       <animated.section
+      data-testid="mobile-login-form"
         className="mobile-login-form"
         style={{
           ...slideAnimationStyles
@@ -93,9 +98,11 @@ export default function Test() {
           </section>
           <LoginForm />
           <button
+          data-testid="left-arrow-button"
             className="reverse-arrow-button"
             onClick={() => {
               slideAnimationApi.start({x: '100%'})
+              setLandingPageOrLogin('landingPage');
             }}
           >
             <ArrowRightAltIcon/>
