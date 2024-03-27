@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTheme } from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import { css } from '@emotion/css'
 import Image from "next/image";
 import LottieAnimation from "@/components/LottieAnimation/LottieAnimation";
@@ -68,7 +68,7 @@ export default function LandingPageMobile() {
           <div
             className="section-3-arrow-button-div"
           >
-            <button
+            <Button
               data-testid="right-arrow-button"
               className="arrow-button"
               onClick={() => {
@@ -77,7 +77,7 @@ export default function LandingPageMobile() {
               }}
             >
               <ArrowRightAltIcon/>
-            </button>
+            </Button>
           </div>
         </section>
       </animated.div>
@@ -97,7 +97,7 @@ export default function LandingPageMobile() {
             <Image priority src="logo.svg" fill alt="Site logo" />
           </section>
           <LoginForm />
-          <button
+          <Button
           data-testid="left-arrow-button"
             className="reverse-arrow-button"
             onClick={() => {
@@ -106,7 +106,7 @@ export default function LandingPageMobile() {
             }}
           >
             <ArrowRightAltIcon/>
-          </button>
+          </Button>
         </div>
       </animated.section>
     </main>
