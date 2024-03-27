@@ -1,8 +1,11 @@
 import { css } from "@emotion/css";
 import  { Button, TextField, useTheme } from "@mui/material";
-import { useForm } from "react-hook-form"
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useForm, Controller } from "react-hook-form"
 import { emailValidation } from "@/constants/appRegExp";
 import { StyledLoginForm } from "./styles";
+import { useState } from "react";
 
 type Inputs = {
     email: string,
@@ -11,12 +14,13 @@ type Inputs = {
 
 export default function LoginForm(){
     const theme = useTheme();
-
+    const [login, setLogin] = useState<Inputs>({email: '', password: ''});
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const{
-        register,
         trigger,
         formState: {errors},
-    } = useForm<Inputs>();
+        control,
+    } = useForm<Inputs>({mode: 'all', reValidateMode: "onBlur", defaultValues: login});
 
     return (
         <section
@@ -24,29 +28,66 @@ export default function LoginForm(){
             ${StyledLoginForm(theme)}
           `}
         >
-          <TextField 
-            fullWidth={true} 
-            label="Email"
-            helperText={errors?.email?.message ?? ' '}
-            {...register("email",
-              {
-                required: {value: true, message: 'Required field'},
-                pattern: {
-                  value: emailValidation,
-                  message: 'Invalid email'
-                }
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: {value: true, message: 'Required field'},
+              pattern: {
+                value: emailValidation,
+                message: 'Invalid email'
               }
+            }}
+            render={({field: {onChange, onBlur, ref}}) => (
+              <TextField
+                type="email"
+                inputRef={ref}
+                value={login.email} 
+                fullWidth={true} 
+                label="Email"
+                helperText={errors?.email?.message ?? ' '}
+                error={!!errors?.email?.message}
+                onChange={(e) => {
+                  setLogin({...login, email: e.target.value});
+                  onChange(e.target.value);
+                }}
+                onBlur={onBlur}
+              />
             )}
-            error={!!errors?.email?.message}
           />
-          <TextField 
-            fullWidth={true}
-            type="password"
-            label="Password"
-            {...register("password", {required: {value: true, message: 'Required field'}})}
-            helperText={errors?.password?.message ?? ' '}
-            error={!!errors?.password?.message}
+          <Controller
+            name="password"
+            control={control}
+            rules={{required: {value: true, message: 'Required field'}}}
+            render={({field: {onChange, onBlur, ref}}) => (
+              <TextField 
+                inputRef={ref}
+                value={login.password}
+                fullWidth={true}
+                type={passwordVisible ? 'text' : 'password'}
+                label="Password"
+                helperText={errors?.password?.message ?? ' '}
+                error={!!errors?.password?.message}
+                InputProps={{
+                  endAdornment: (
+                    passwordVisible
+                      ? <VisibilityOffIcon color="primary" onClick={() => {
+                        setPasswordVisible(false);
+                      }}/>
+                      : <VisibilityIcon color="primary" onClick={() => {
+                        setPasswordVisible(true);
+                      }}/>
+                  )
+                }}
+                onChange={(e) => {
+                  setLogin({...login, password: e.target.value});
+                  onChange(e);
+                }}
+                onBlur={onBlur}
+              />
+            )}
           />
+         
           <div>
             <span className="forgot-password-span">
               Forgot password?
@@ -61,7 +102,7 @@ export default function LoginForm(){
                   fullWidth={true} 
                   size="large"
                   onClick={() => {
-                      trigger();
+                      trigger(undefined, {shouldFocus: true});
                   }}
               >
                   Log in
