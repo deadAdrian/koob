@@ -3,6 +3,14 @@ import LandingPageMobile from '@/components/LandingPageMobile/LandingPageMobile'
 
 afterEach(cleanup);
 
+jest.mock('next/router', () => ({
+    useRouter() {
+        return {
+        pathname: '',
+        };
+    },
+}));
+
 test('It renders', () => {
     render(<LandingPageMobile/>);
     const landingPageElement = screen.getByTestId('mobile-landing-page');
