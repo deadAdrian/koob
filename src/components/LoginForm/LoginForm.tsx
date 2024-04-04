@@ -6,6 +6,7 @@ import { useForm, Controller } from "react-hook-form"
 import { emailValidation } from "@/constants/appRegExp";
 import { StyledLoginForm } from "./styles";
 import { useState } from "react";
+import { useRouter } from 'next/navigation'
 
 type Inputs = {
     email: string,
@@ -14,6 +15,7 @@ type Inputs = {
 
 export default function LoginForm(){
     const theme = useTheme();
+    const router = useRouter();
     const [login, setLogin] = useState<Inputs>({email: '', password: ''});
     const [passwordVisible, setPasswordVisible] = useState(false);
     const{
@@ -101,8 +103,11 @@ export default function LoginForm(){
                   color="secondary" 
                   fullWidth={true} 
                   size="large"
-                  onClick={() => {
-                      trigger(undefined, {shouldFocus: true});
+                  onClick={async () => {
+                      const isFormCorrect = await trigger(undefined, {shouldFocus: true});
+                      if(isFormCorrect){
+                        router.push('/homepage')
+                      }
                   }}
               >
                   Log in
