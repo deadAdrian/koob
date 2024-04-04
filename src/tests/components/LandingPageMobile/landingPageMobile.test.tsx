@@ -3,7 +3,7 @@ import LandingPageMobile from '@/components/LandingPageMobile/LandingPageMobile'
 
 afterEach(cleanup);
 
-jest.mock('next/router', () => ({
+jest.mock('next/navigation', () => ({
     useRouter() {
         return {
         pathname: '',
