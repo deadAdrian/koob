@@ -5,15 +5,19 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useForm, Controller } from "react-hook-form"
 import { emailValidation } from "@/constants/appRegExp";
 import { StyledLoginForm } from "./styles";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useRouter } from 'next/navigation'
+
+interface Props {
+  setCurrentPage: Dispatch<SetStateAction<"login" | "landingPage" | "signup">>
+}
 
 type Inputs = {
     email: string,
     password: string
 }
 
-export default function LoginForm(){
+export default function LoginForm({setCurrentPage}: Readonly<Props>){
     const theme = useTheme();
     const router = useRouter();
     const [login, setLogin] = useState<Inputs>({email: '', password: ''});
@@ -112,7 +116,17 @@ export default function LoginForm(){
               >
                   Log in
               </Button>
-              <Button variant="outlined" color="primary" fullWidth={true} size="large">Sign up</Button>
+              <Button
+                onClick={() => {
+                  setCurrentPage('signup')
+                }}
+                variant="outlined" 
+                color="primary" 
+                fullWidth={true} 
+                size="large"
+              >
+                Sign up
+              </Button>
           </div>
       </section>
     )
