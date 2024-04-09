@@ -10,13 +10,17 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import LoginForm from "../LoginForm/LoginForm";
 import { StyledLandingPageMobile } from "./styles";
 import { animated, useSpring, config } from '@react-spring/web'
+import SignUpForm from "../SignUpForm/SignUpForm";
 
 export default function LandingPageMobile() {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [landingPageOrLogin, setLandingPageOrLogin] = useState<'landingPage' | 'login'>('landingPage')
+  const [currentPage, setCurrentPage] = useState<'landingPage' | 'login' | 'signup'>('landingPage')
   const [slideAnimationStyles, slideAnimationApi] = useSpring(() => ({
     x: '100%',
+  }));
+  const [slideAnimationStylesSignUp, slideAnimationApiSignUp] = useSpring(() => ({
+    y: '100%',
   }));
   const springVertical = useSpring({
     from: { y: -500},
@@ -26,11 +30,27 @@ export default function LandingPageMobile() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    switch(currentPage){
+      case 'login':
+        slideAnimationApi.start({x: '0%', config: config.wobbly});
+        slideAnimationApiSignUp.start({y: '100%'});
+        break;
+      case "landingPage":
+        slideAnimationApi.start({x: '100%'});
+        break;
+      case "signup": 
+      slideAnimationApiSignUp.start({y: '0%', config: config.wobbly});
+        break;
+    }
+  }, [currentPage]);
+
   return ( 
     mounted &&
     <main
       className={css`
-        ${StyledLandingPageMobile(theme, landingPageOrLogin)}
+        ${StyledLandingPageMobile(theme, currentPage)}
       `}
     >
       <animated.div
@@ -72,8 +92,7 @@ export default function LandingPageMobile() {
               data-testid="right-arrow-button"
               className="arrow-button"
               onClick={() => {
-                slideAnimationApi.start({x: '0%', config: config.wobbly});
-                setLandingPageOrLogin('login');
+                setCurrentPage('login');
               }}
             >
               <ArrowRightAltIcon/>
@@ -96,18 +115,42 @@ export default function LandingPageMobile() {
           >
             <Image priority src="logo.svg" fill alt="Site logo" />
           </section>
-          <LoginForm />
+          <LoginForm setCurrentPage={setCurrentPage}/>
           <Button
           data-testid="left-arrow-button"
             className="reverse-arrow-button"
             onClick={() => {
-              slideAnimationApi.start({x: '100%'})
-              setLandingPageOrLogin('landingPage');
+              setCurrentPage('landingPage');
             }}
           >
             <ArrowRightAltIcon/>
           </Button>
         </div>
+      </animated.section>
+      <animated.section 
+        className="mobile-signup-form"
+        style={{...slideAnimationStylesSignUp}}
+      >
+        <div
+          className="mobile-login-form-div"
+        >
+          <section
+            className="mobile-login-section-1"
+          >
+            <Image priority src="logo.svg" fill alt="Site logo" />
+          </section>
+          <SignUpForm setCurrentPage={setCurrentPage}/>
+          <Button
+            data-testid="up-arrow-button"
+            className="up-arrow-bottom"
+            onClick={() => {
+              setCurrentPage('login');
+            }}
+          >
+            <ArrowRightAltIcon/>
+          </Button>
+        </div>
+        
       </animated.section>
     </main>
   );
