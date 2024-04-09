@@ -3,7 +3,7 @@ import { Theme } from "@mui/material";
 
 export function StyledLandingPageMobile (
     theme: Theme,
-    landingPageOrLogin: 'landingPage' | 'login'
+    landingPageOrLogin: 'landingPage' | 'login' | 'signup'
 ) {
     return css`
         display: flex; 
@@ -20,7 +20,7 @@ export function StyledLandingPageMobile (
             align-items: center;
             justify-content: space-between;
             transition: opacity .3s;
-            opacity: ${landingPageOrLogin === 'login' ? 0 : 1};
+            opacity: ${landingPageOrLogin === 'landingPage' ? 1 : 0};
 
             .landing-page-section-1{
                 position: relative;
@@ -116,6 +116,52 @@ export function StyledLandingPageMobile (
                     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
                     &:hover{
                         transform: scale(1.1) rotate(180deg);
+                    }
+                }
+            }
+        }
+
+        .mobile-signup-form{
+            display: flex;
+            width: 100vw;
+            height: 100dvh;
+            justify-content: center;
+            position: absolute;
+            background-color: ${theme.palette.background.default};
+            transition: opacity .3s;
+            opacity: ${landingPageOrLogin === 'signup' ? 1 : 0};
+
+            .mobile-login-form-div{
+                min-width: 375px;
+                max-height: 100dvh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .mobile-login-section-1{
+                    position: relative;
+                    width: 100vw;
+                    height: 180px;
+                }
+                .up-arrow-bottom{
+                    transform: rotate(-90deg);
+                    background-color: ${theme.palette.secondary.main};
+                    display: flex;
+                    position: relative;
+                    justify-content: center;
+                    align-items: center;
+                    width: 70px;
+                    height: 70px;
+                    border-radius: 50%;
+                    transition: transform .3s;
+                    cursor: pointer;
+                    border: none;
+                    margin-top: 20px;
+                    color: ${theme.palette.primary.main};
+                    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+                    &:hover{
+                        transform: scale(1.1) rotate(-90deg);
                     }
                 }
             }
