@@ -13,7 +13,7 @@ export function StyledLandingPageMobile (
         overflow: hidden;
 
         .mobile-landing-page{
-            min-width: 375px;
+            min-width: 360px;
             max-height: 100dvh;
             display: flex;
             flex-direction: column;
@@ -30,6 +30,7 @@ export function StyledLandingPageMobile (
 
             .landing-page-section-2{
                 text-align: center;
+                padding: 0px 12px;
             }
 
             .landing-page-section-3{
@@ -85,7 +86,7 @@ export function StyledLandingPageMobile (
             opacity: ${landingPageOrLogin === 'login' ? 1 : 0};
 
             .mobile-login-form-div{
-                min-width: 375px;
+                min-width: 360px;
                 max-height: 100dvh;
                 display: flex;
                 flex-direction: column;
