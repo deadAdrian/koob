@@ -14,5 +14,18 @@ export default function StyledHomepage(){
             bottom: 76px;
             right: 16px;
         }
+
+        .swipeable-container{
+            height: 100%;
+            width: 100%;
+        }
+
+        .swipeable-div{
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     `
 }
