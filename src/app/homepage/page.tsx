@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import StyledHomepage from './styles'
 import { css } from "@emotion/css";
 import Home from '@/components/Home/Home'
+import NewBookForm from "@/components/NewBookForm/NewBookForm";
 
 const bottomNavigationValues = ['home', 'books', 'stats', 'profile'];
 
@@ -34,6 +35,7 @@ const Homepage = () => {
               containerStyle={{height: "100%", width: "100%"}} 
               index={currentTab}
               onChangeIndex={(index) => {
+                setCurrentTab(index);
                 setBottomNavigationValue(bottomNavigationValues[index])
               }}
             >
@@ -47,8 +49,12 @@ const Homepage = () => {
               <div >
                 profile
               </div>
+              <NewBookForm/>
             </SwipeableViews>
-            <Fab className="app-fab" color="primary" aria-label="add">
+            <Fab className="app-fab" color="primary" aria-label="add" onClick={() => {
+              setCurrentTab(4);
+              setBottomNavigationValue('');
+            }}>
               <AddIcon />
             </Fab>
             <Paper sx={{ position: 'sticky', bottom: 0, left: 0, right: 0, width: "100%" }} elevation={3}>
